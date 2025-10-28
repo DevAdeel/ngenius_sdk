@@ -25,7 +25,7 @@ class CheckoutScreen extends StatefulWidget {
     this.onError,
   });
 
-  final void Function() onPaymentCreated;
+  final void Function(dynamic) onPaymentCreated;
   final void Function()? onError;
   final String apiUrl, apiKey, outletId, currency;
   final int amount;
@@ -64,7 +64,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         onError: () => _showError(),
       );
 
-      final paymentUrl = await createPaymentOrder(
+      final orderData = await createPaymentOrder(
         baseUrl: apiUrl,
         token: token!,
         outletId: outletId,
@@ -73,9 +73,12 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         onError: () => _showError(),
       );
 
+      final paymentUrl = orderData["_embedded"]["payment"][0]["_links"]
+          ["payment:card"]["href"] as String;
+
       final paymentResponse = await sendPaymentDetails(
         results: p0,
-        paymentUrl: paymentUrl!,
+        paymentUrl: paymentUrl,
         token: token!,
         onError: () => _showError(),
       );
@@ -122,7 +125,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           isLoading = false;
           screenStatus = ScreenStatus.success;
         });
-        widget.onPaymentCreated.call();
+        widget.onPaymentCreated.call(orderData);
       } else {
         setState(() => isLoading = false);
         _showError();
@@ -189,7 +192,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   InAppWebView authenticationWebview() {
     return InAppWebView(
       initialUrlRequest: URLRequest(
-        url: Uri.parse('$authUrl'),
+        url: WebUri.uri(Uri.parse('$authUrl')),
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
@@ -249,12 +252,12 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 url: auth3dsUrl!,
                 token: token!,
                 data: data,
-                onSuccess: () {
+                onSuccess: (order) {
                   setState(() {
                     isLoading = false;
                     screenStatus = ScreenStatus.success;
                   });
-                  widget.onPaymentCreated.call();
+                  widget.onPaymentCreated.call(order);
                 },
                 onError: () {
                   setState(() {

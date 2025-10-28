@@ -26,7 +26,7 @@ Future<String?> fetchAccessToken({
   }
 }
 
-Future<String?> createPaymentOrder({
+Future<dynamic> createPaymentOrder({
   required String baseUrl,
   required String token,
   required String outletId,
@@ -51,7 +51,7 @@ Future<String?> createPaymentOrder({
     final paymentUrl = response.data["_embedded"]["payment"][0]["_links"]
         ["payment:card"]["href"] as String;
 
-    return paymentUrl;
+    return response.data;
   } catch (e) {
     Logger.log("$e", 'createPaymentOrder');
     onError.call();
@@ -94,7 +94,7 @@ Future<void> authorizePayment({
   required String url,
   required String token,
   required Map data,
-  required Function() onSuccess,
+  required Function(dynamic) onSuccess,
   required Function() onError,
 }) async {
   try {
@@ -107,7 +107,7 @@ Future<void> authorizePayment({
     final state = response.data["state"];
     log(state);
     if (state == 'PURCHASED') {
-      onSuccess.call();
+      onSuccess.call(response.data);
     } else {
       onError.call();
     }
