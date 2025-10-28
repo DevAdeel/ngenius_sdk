@@ -45,6 +45,8 @@ class NgeniusCheckout extends StatelessWidget {
       onError: onError,
       logLevel: logLevel,
       showError: showError,
+      backgroundColor: backgroundColor,
+      appBar: appBar,
     );
   }
 }
