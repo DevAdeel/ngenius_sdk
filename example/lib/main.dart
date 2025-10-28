@@ -1,6 +1,7 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:ngenius_sdk/ngenius_sdk.dart';
-import 'package:ngenius_sdk_example/config.dart';
 
 void main() {
   runApp(const MyApp());
@@ -38,12 +39,15 @@ class CheckoutScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return NgeniusCheckout(
-      apiUrl: apiUrl,
-      apiKey: apiKey,
-      outletId: outletId,
-      currency: currency,
-      amount: amount,
-      onPaymentCreated: () {
+      apiUrl: "https://api-gateway.sandbox.ngenius-payments.com/",
+      apiKey:
+          "ZGMzYmMxNjYtNjU4Mi00MzVmLWI3N2MtY2E1YTMyM2FjOTMzOjMzNTgxOGRkLTM4ZDYtNDBlNS1iNDM2LTI3ZTllZjc2OTI5MQ==",
+      outletId: "50ab288c-b754-4bab-99b7-32d33347a132",
+      currency: "AED",
+      amount: 1,
+      onPaymentCreated: (data) {
+        log(data);
+        log(data['reference']);
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Success'),

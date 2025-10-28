@@ -13,6 +13,11 @@ class NgeniusCheckout extends StatelessWidget {
   final VoidCallback? onError;
   final LogLevel logLevel;
 
+  final Color? backgroundColor;
+  final AppBar? appBar;
+
+  final bool showError;
+
   const NgeniusCheckout({
     required this.apiUrl,
     required this.apiKey,
@@ -22,6 +27,9 @@ class NgeniusCheckout extends StatelessWidget {
     required this.onPaymentCreated,
     this.logLevel = LogLevel.all,
     this.onError,
+    this.backgroundColor,
+    this.appBar,
+    this.showError = true,
     super.key,
   });
 
@@ -36,6 +44,7 @@ class NgeniusCheckout extends StatelessWidget {
       onPaymentCreated: onPaymentCreated,
       onError: onError,
       logLevel: logLevel,
+      showError: showError,
     );
   }
 }

@@ -22,7 +22,10 @@ class CheckoutScreen extends StatefulWidget {
     required this.amount,
     required this.onPaymentCreated,
     required this.logLevel,
+    this.backgroundColor,
+    this.appBar,
     this.onError,
+    this.showError = true,
   });
 
   final void Function(dynamic) onPaymentCreated;
@@ -30,6 +33,11 @@ class CheckoutScreen extends StatefulWidget {
   final String apiUrl, apiKey, outletId, currency;
   final int amount;
   final LogLevel logLevel;
+
+  final Color? backgroundColor;
+  final AppBar? appBar;
+
+  final bool showError;
 
   @override
   _CheckoutScreenState createState() => _CheckoutScreenState();
@@ -40,7 +48,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   ScreenStatus screenStatus = ScreenStatus.details;
   ThreeDsState threeDsStatus = ThreeDsState.none;
   String? token, auth3dsUrl, authUrl, authBody;
-  _showError() => showError(context, widget.onError);
+  _showError() => widget.showError
+      ? showError(context, widget.onError)
+      : widget.onError?.call();
 
   @override
   void initState() {
@@ -133,16 +143,18 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     }
 
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-      appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-        title: const Text(
-          'Payment',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
+      backgroundColor:
+          widget.backgroundColor ?? const Color.fromARGB(255, 255, 255, 255),
+      appBar: widget.appBar ??
+          AppBar(
+            backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+            title: const Text(
+              'Payment',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
-        ),
-      ),
       body: Stack(
         children: [
           Builder(builder: (context) {
