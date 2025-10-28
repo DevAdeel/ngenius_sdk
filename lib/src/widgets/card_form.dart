@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:ngenius_sdk/ngenius_sdk.dart';
 import 'dart:async';
 
+import 'package:flutter/material.dart';
+import 'package:ngenius_sdk/ngenius_sdk.dart';
 import 'package:ngenius_sdk/src/models/card_form_results.dart';
 import 'package:ngenius_sdk/src/utils/card_utils.dart';
 import 'package:text_form_field_wrapper/text_form_field_wrapper.dart';
@@ -115,9 +115,10 @@ class _CardScreenState extends State<CardScreen> {
               position: TextFormFieldPosition.top,
               formField: TextFormField(
                 controller: cCardNumber,
+                style: const TextStyle(color: Colors.black),
                 keyboardType: TextInputType.number,
                 validator: (value) {
-                  if(amexCheck(value)) {
+                  if (amexCheck(value)) {
                     return null;
                   }
                   if (CreditNumberSubmitRegexValidator().isValid(value!)) {
@@ -159,6 +160,7 @@ class _CardScreenState extends State<CardScreen> {
                     position: TextFormFieldPosition.bottomLeft,
                     formField: TextFormField(
                       controller: cExpiry,
+                      style: const TextStyle(color: Colors.black),
                       keyboardType: TextInputType.number,
                       validator: (value) {
                         if (CreditExpirySubmitRegexValidator()
@@ -186,6 +188,7 @@ class _CardScreenState extends State<CardScreen> {
                     position: TextFormFieldPosition.bottomRight,
                     formField: TextFormField(
                       controller: cSecurity,
+                      style: const TextStyle(color: Colors.black),
                       validator: (value) {
                         if (CreditCvvSubmitRegexValidator().isValid(value!)) {
                           return null;
@@ -229,6 +232,7 @@ class _CardScreenState extends State<CardScreen> {
               borderThickness: 2,
               formField: TextFormField(
                 controller: cName,
+                style: const TextStyle(color: Colors.black),
                 keyboardType: TextInputType.name,
                 validator: (input) {
                   if (input!.isNotEmpty &&
@@ -314,32 +318,29 @@ class _BrandsDisplayState extends State<_BrandsDisplay> {
   Widget diners = SizedBox(
     height: 15,
     width: 30,
-    child: Image.asset('assets/images/card_diners.png',
-        package: 'ngenius_sdk'),
+    child: Image.asset('assets/images/card_diners.png', package: 'ngenius_sdk'),
   );
   Widget jcb = SizedBox(
     height: 15,
     width: 30,
-    child: Image.asset('assets/images/card_jcb.png',
-        package: 'ngenius_sdk'),
+    child: Image.asset('assets/images/card_jcb.png', package: 'ngenius_sdk'),
   );
   Widget union = SizedBox(
     height: 15,
     width: 30,
-    child: Image.asset('assets/images/card_union_pay.png',
-        package: 'ngenius_sdk'),
+    child:
+        Image.asset('assets/images/card_union_pay.png', package: 'ngenius_sdk'),
   );
   Widget discover = SizedBox(
     height: 15,
     width: 30,
-    child: Image.asset('assets/images/card_discover.png',
-        package: 'ngenius_sdk'),
+    child:
+        Image.asset('assets/images/card_discover.png', package: 'ngenius_sdk'),
   );
   Widget visa = SizedBox(
     height: 15,
     width: 30,
-    child: Image.asset('assets/images/card_visa.png',
-        package: 'ngenius_sdk'),
+    child: Image.asset('assets/images/card_visa.png', package: 'ngenius_sdk'),
   );
   Widget master = SizedBox(
     height: 15,
@@ -350,8 +351,7 @@ class _BrandsDisplayState extends State<_BrandsDisplay> {
   Widget amex = SizedBox(
     height: 15,
     width: 30,
-    child: Image.asset('assets/images/card_amex.png',
-        package: 'ngenius_sdk'),
+    child: Image.asset('assets/images/card_amex.png', package: 'ngenius_sdk'),
   );
 
   Widget? image;
